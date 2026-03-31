@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher AI - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- SIDEBAR (Yon Menyu) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📊 Teacher AI</h2>
+                <p class="admin-badge">Super Admin</p>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li><a href="#" class="menu-item active" data-section="dashboard">
+                        📈 Dashboard
+                    </a></li>
+                    <li><a href="#" class="menu-item" data-section="add-user">
+                        👤 Yangi Foydalanuvchi
+                    </a></li>
+                    <li><a href="#" class="menu-item" data-section="users-list">
+                        📋 Foydalanuvchilar Ro'yxati
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">🚪 Chiqish</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="admin-header">
+                <h1>Super Admin Paneli</h1>
+                <div class="header-info">
+                    <span class="user-info" id="userInfo"></span>
+                </div>
+            </header>
+
+            <!-- CONTENT SECTIONS -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <h3>📊 Jami Foydalanuvchilar</h3>
+                        <p class="stat-number" id="totalUsers">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>👨‍🏫 O'qituvchilar</h3>
+                        <p class="stat-number" id="teacherCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>👦 O'quvchilar</h3>
+                        <p class="stat-number" id="studentCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>🏫 Maktablar</h3>
+                        <p class="stat-number" id="schoolCount">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- YANGI FOYDALANUVCHI QO'SHISH -->
+            <section id="add-user" class="content-section">
+                <h2>Yangi Foydalanuvchi Qo'shish</h2>
+                
+                <form id="addUserForm" class="add-user-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Ism va Familiya *</label>
+                            <input 
+                                type="text" 
+                                id="fullName" 
+                                name="fullName" 
+                                placeholder="Masalan: Ahmat Aliyev"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="region">Viloyat *</label>
+                            <select id="region" name="region" required>
+                                <option value="">-- Viloyatni tanlang --</option>
+                                <option value="tashkent-city">🏙️ Toshkent Shahar</option>
+                                <option value="tashkent-region">🏘️ Toshkent Viloyati</option>
+                                <option value="samarkand">Samarqand</option>
+                                <option value="bukhara">Buxoro</option>
+                                <option value="kashkadarya">Qashqadaryo</option>
+                                <option value="navoi">Navoiy</option>
+                                <option value="andijan">Andijon</option>
+                                <option value="fergana">Farg'ona</option>
+                                <option value="namangan">Namangan</option>
+                                <option value="karakalpakstan">Qoraqalpog'iston</option>
+                                <option value="surxandarya">Surxondaryo</option>
+                                <option value="jizzakh">Jizzax</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="district">Tuman *</label>
+                            <select id="district" name="district" required>
+                                <option value="">-- Tuman tanlang --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="schoolNumber">Maktab Raqami *</label>
+                            <input 
+                                type="number" 
+                                id="schoolNumber" 
+                                name="schoolNumber" 
+                                placeholder="Masalan: 42"
+                                min="1"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="role">Rol Tanlang *</label>
+                            <select id="role" name="role" required>
+                                <option value="">-- Rolni tanlang --</option>
+                                <option value="director">Direktor</option>
+                                <option value="vice_director">Zamdirektor</option>
+                                <option value="zavuch">Zavuch</option>
+                                <option value="teacher">O'qituvchi</option>
+                                <option value="student">O'quvchi</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="classGroupDiv" style="display: none;">
+                            <label for="classGroup">Sinf (masalan: 9-A) *</label>
+                            <input 
+                                type="text" 
+                                id="classGroup" 
+                                name="classGroup" 
+                                placeholder="Masalan: 9-A"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userEmail">Email *</label>
+                            <input 
+                                type="email" 
+                                id="userEmail" 
+                                name="userEmail" 
+                                placeholder="user@example.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userPassword">Parol *</label>
+                            <div class="password-group">
+                                <input 
+                                    type="password" 
+                                    id="userPassword" 
+                                    name="userPassword" 
+                                    placeholder="Avtomatik yaratilgan parol"
+                                    readonly
+                                >
+                                <button type="button" class="generate-btn" onclick="generatePassword()">
+                                    🔄 Yaratish
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">💾 Saqlash</button>
+                        <button type="reset" class="btn-secondary">🔄 Tozalash</button>
+                    </div>
+                </form>
+
+                <div id="successMessage" class="success-message" style="display: none;">
+                    ✅ Foydalanuvchi muvaffaqiyatli qo'shildi!
+                </div>
+            </section>
+
+            <!-- FOYDALANUVCHILAR RO'YXATI -->
+            <section id="users-list" class="content-section">
+                <h2>Foydalanuvchilar Ro'yxati</h2>
+                
+                <div class="table-controls">
+                    <input 
+                        type="text" 
+                        id="searchUsers" 
+                        placeholder="🔍 Ism, email yoki rol bo'yicha qidirish..."
+                        class="search-input"
+                    >
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Ism va Familiya</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Viloyat / Tuman</th>
+                                <th>Maktab</th>
+                                <th>Sinf</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center">Hozircha foydalanuvchilar yo'q</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
